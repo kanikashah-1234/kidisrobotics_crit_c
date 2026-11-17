@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search | Kidis Robotics</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<form class="search-bar" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search..." required>
+    <button type="submit">🔍</button>
+</form>
+<nav>
+    <div class="logo-area">
+        <img src="images/logo.png" alt="Kidis Robotics Logo">
+        <h2>KIDIS ROBOTICS</h2>
+    </div>
+
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="programs.html">Programs</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="events.html">Events</a>
+    <a href="contact.html">Contact</a>
+    <a href="register.html">Register</a>
+
+    <form class="search-bar" action="search.html" method="get">
+        <input type="text" name="q" placeholder="Search..." required>
+        <button type="submit">🔍</button>
+    </form>
+</nav>
+
+<header class="terms-header">
+    <h1>SEARCH KIDIS ROBOTICS</h1>
+    <p>Find what you are looking for!</p>
+</header>
+
+<main class="search-results-page">
+
+    <h2>Search Results</h2>
+    <p id="search-message">Searching...</p>
+
+    <div id="results"></div>
+
+</main>
+
+<footer>
+    <div class="footer-links">
+        <a href="terms.html">Terms & Conditions</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="photography.html">Photography Consent</a>
+    </div>
+</footer>
+
+<script>
+
+const pages = [
+    {
+        title: "Home",
+        url: "index.html",
+        description: "Welcome to Kidis Robotics. Discover our classes and activities.",
+        keywords: "welcome home kidis robotics children"
+    },
+    {
+        title: "About Us",
+        url: "about.html",
+        description: "Learn about Kidis Robotics and what we do.",
+        keywords: "about us business information"
+    },
+    {
+        title: "Programs",
+        url: "programs.html",
+        description: "Explore our robotics and art classes.",
+        keywords: "robotics art classes programs learning"
+    },
+    {
+        title: "Gallery",
+        url: "gallery.html",
+        description: "View photographs of activities and creative projects.",
+        keywords: "gallery photos pictures images projects"
+    },
+    {
+        title: "Events",
+        url: "events.html",
+        description: "Discover workshops, activities and slime workshops.",
+        keywords: "events activities workshops slime"
+    },
+    {
+        title: "Contact",
+        url: "contact.html",
+        description: "Find our contact details and send us a message.",
+        keywords: "contact email phone address location"
+    },
+    {
+        title: "Register",
+        url: "register.html",
+        description: "Send an enquiry about joining our programs.",
+        keywords: "register registration sign up join enquiry"
+    },
+    {
+        title: "Terms and Conditions",
+        url: "terms.html",
+        description: "Read our website terms and conditions.",
+        keywords: "terms conditions rules"
+    },
+    {
+        title: "Privacy Policy",
+        url: "privacy.html",
+        description: "Learn about privacy and personal information.",
+        keywords: "privacy personal information data"
+    },
+    {
+        title: "Photography Consent",
+        url: "photography.html",
+        description: "Information about photographs and parental permission.",
+        keywords: "photography photos consent permission parents children"
+    }
+];
+
+const searchParams = new URLSearchParams(window.location.search);
+const searchTerm = (searchParams.get("q") || "").toLowerCase().trim();
+
+const resultsContainer = document.getElementById("results");
+const message = document.getElementById("search-message");
+
+if (searchTerm === "") {
+    message.textContent = "Please enter something in the search bar.";
+} else {
+
+    const words = searchTerm.split(/\s+/);
+
+    const matchingPages = pages.filter(function(page) {
+
+        const searchableText = (
+            page.title + " " +
+            page.description + " " +
+            page.keywords
+        ).toLowerCase();
+
+        return words.every(function(word) {
+            return searchableText.includes(word);
+        });
+
+    });
+
+    if (matchingPages.length > 0) {
+
+        message.textContent =
+            "We found " + matchingPages.length + " result(s) for \"" +
+            searchTerm + "\".";
+
+        matchingPages.forEach(function(page) {
+
+            const result = document.createElement("div");
+            result.className = "search-result";
+
+            const heading = document.createElement("h3");
+            heading.textContent = page.title;
+
+            const description = document.createElement("p");
+            description.textContent = page.description;
+
+            const link = document.createElement("a");
+            link.href = page.url;
+            link.textContent = "Visit Page →";
+
+            result.appendChild(heading);
+            result.appendChild(description);
+            result.appendChild(link);
+
+            resultsContainer.appendChild(result);
+
+        });
+
+    } else {
+
+        message.textContent =
+            "Sorry, no results found for \"" + searchTerm + "\". Try another word.";
+
+    }
+}
+
+</script>
+
+</body>
+</html>
